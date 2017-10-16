@@ -5,10 +5,22 @@
  */
 package fi.famsquad.tikapedrinkkiarkisto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  *
  * @author sami
  */
 public class Tietokanta {
+    private Connection tietokanta;
     
+    public Tietokanta(String tietokantaSijainti) throws SQLException {
+        this.tietokanta = DriverManager.getConnection(tietokantaSijainti);
+    }
+    
+    public Connection getConnection() {
+        return this.tietokanta;
+    }
 }
