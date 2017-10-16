@@ -10,5 +10,10 @@ package fi.famsquad.tikapedrinkkiarkisto;
  * @author sami
  */
 public class RaakaAine {
+    private String nimi;
+    
+    public RaakaAine(String nimi) {
+        this.nimi = nimi;
+    }
     
 }
