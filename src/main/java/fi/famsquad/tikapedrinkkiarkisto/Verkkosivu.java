@@ -34,7 +34,10 @@ public class Verkkosivu {
         nakyvaDrinkkimikseri();
         lisaaDrinkki();
     }
-
+    
+    // Pitäiskö posteille ja geteille olla eri nimet ihan vaan selkeyden vuoksi?
+    // Esim "/lisaadrinkki" tai vastaava?
+    
     public void nakyvaDrinkkimikseri() {
         Spark.get("/drinkkimikseri", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -42,7 +45,14 @@ public class Verkkosivu {
             map.put("raakislista", this.raakaaineListaTest);
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
-
+        
+        // Helppo redirekti joka ohjaa oikealle verkkosivulle
+        // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
+        Spark.get("*", (req, res) -> {
+            res.redirect("/drinkkimikseri");
+            
+            return "";
+        });
     }
 
     public void lisaaDrinkki() {
