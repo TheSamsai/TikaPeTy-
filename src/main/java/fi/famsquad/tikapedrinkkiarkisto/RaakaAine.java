@@ -15,5 +15,9 @@ public class RaakaAine {
     public RaakaAine(String nimi) {
         this.nimi = nimi;
     }
+
+    public String getNimi() { // automaattisin nimin varustettuja gettejä tarvitaan webbisovelluksen toimintaan -mattiost
+        return nimi;
+    }
     
 }

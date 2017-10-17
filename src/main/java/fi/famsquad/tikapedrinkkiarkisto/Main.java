@@ -5,10 +5,17 @@
  */
 package fi.famsquad.tikapedrinkkiarkisto;
 
+import java.sql.*;
+
 /**
  *
  * @author sami
  */
 public class Main {
-    
+
+    public static void main(String[] args) throws SQLException {
+        Tietokanta tietokanta = new Tietokanta("drinkkitietokanta.db");
+        DrinkkiDao dDao = new DrinkkiDao(tietokanta);
+        Verkkosivu verkkosivu = new Verkkosivu(dDao);
+    }
 }

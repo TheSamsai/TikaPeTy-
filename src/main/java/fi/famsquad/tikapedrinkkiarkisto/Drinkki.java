@@ -15,8 +15,25 @@ import java.util.List;
 public class Drinkki {
     private HashMap<RaakaAine, Integer> raakaAineet;
     private List<String> ohje;
+    private String nimi; //lisätty nimi drinkille -mattiost
+
     
-    public Drinkki(HashMap<RaakaAine, Integer> raakaAineet, List<String> ohjeet) {
+    //luotu konstruktoreita
+    public Drinkki(String drinkinNimi){
+        this.nimi = drinkinNimi;
+    }
+    
+    public Drinkki(String drinkinNimi, HashMap<RaakaAine, Integer> raakaAineet, List<String> ohjeet){
+        this.nimi = drinkinNimi;
+        this.raakaAineet = raakaAineet;
+        this.ohje = ohjeet;
+    }
+    
+    public String getNimi() {
+        return nimi;
+    }
+    
+    public void vaihdaDrinkinOminaisuudet(HashMap<RaakaAine, Integer> raakaAineet, List<String> ohjeet) {
         this.raakaAineet = raakaAineet;
         this.ohje = ohjeet;
     }
