@@ -11,11 +11,18 @@ package fi.famsquad.tikapedrinkkiarkisto;
  */
 public class RaakaAine {
     private String nimi;
+    private int id;
     
     public RaakaAine(String nimi) {
         this.nimi = nimi;
+        this.id = -1;
     }
-
+    
+    public RaakaAine(String nimi, int id) {
+        this.nimi = nimi;
+        this.id = id;
+    }
+    
     public String getNimi() { // automaattisin nimin varustettuja gettejä tarvitaan webbisovelluksen toimintaan -mattiost
         return nimi;
     }
