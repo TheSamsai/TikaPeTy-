@@ -31,6 +31,7 @@ public class Verkkosivu {
         this.raakaaineListaTest.add(new RaakaAine("Maaukko"));
         this.raakaaineListaTest.add(new RaakaAine(("Kakka")));
         // ...tähän on vain testaamisessa tarvittavaa
+        //tämä on kommentti
         nakyvaDrinkkimikseri();
         lisaaDrinkki();
     }
