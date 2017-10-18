@@ -46,6 +46,8 @@ public class Verkkosivu {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
         
+        // Loput getit tänne
+        
         // Helppo redirekti joka ohjaa oikealle verkkosivulle
         // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
         Spark.get("*", (req, res) -> {
@@ -53,6 +55,8 @@ public class Verkkosivu {
             
             return "";
         });
+        
+        // Tänne ei enempää gettejä, viimeisin getti on catch-all
     }
 
     public void lisaaDrinkki() {
