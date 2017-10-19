@@ -5,6 +5,7 @@
  */
 package fi.famsquad.tikapedrinkkiarkisto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +14,7 @@ import java.util.List;
  * @author sami
  */
 public class Drinkki {
-    private HashMap<RaakaAine, Integer> raakaAineet;
-    private HashMap<RaakaAine, Integer> raakaAineMaarat;
-    private List<String> ohje;
+    private List<DrinkkiRaakaAine> drinkinRaakaAineet;
     private String nimi; //lisätty nimi drinkille -mattiost
     private int id;
     
@@ -30,18 +29,15 @@ public class Drinkki {
         this.id = id;
     } 
     
-    public Drinkki(String drinkinNimi, HashMap<RaakaAine, Integer> raakaAineet, HashMap<RaakaAine, Integer> raakaAineMaarat, List<String> ohjeet){
+    public Drinkki(String drinkinNimi, List<DrinkkiRaakaAine> drinkinRaakaAineet){
         this.nimi = drinkinNimi;
-        this.raakaAineet = raakaAineet;
-        this.raakaAineMaarat = raakaAineMaarat;
-        this.ohje = ohjeet;
+        this.drinkinRaakaAineet = drinkinRaakaAineet;
         this.id = -1;
     }
     
-    public Drinkki(String drinkinNimi, int id, HashMap<RaakaAine, Integer> raakaAineet, HashMap<RaakaAine, Integer> raakaAineMaarat, List<String> ohjeet){
+    public Drinkki(String drinkinNimi, int id, List<DrinkkiRaakaAine> drinkinRaakaAineet){
         this.nimi = drinkinNimi;
-        this.raakaAineet = raakaAineet;
-        this.ohje = ohjeet;
+        this.drinkinRaakaAineet = drinkinRaakaAineet;
         this.id = id;
     }
     
@@ -53,20 +49,11 @@ public class Drinkki {
         return this.id;
     }
     
-    public void vaihdaDrinkinOminaisuudet(HashMap<RaakaAine, Integer> raakaAineet, List<String> ohjeet) {
-        this.raakaAineet = raakaAineet;
-        this.ohje = ohjeet;
+    public void vaihdaDrinkinOminaisuudet(List<DrinkkiRaakaAine> drinkinRaakaAineet) {
+        this.drinkinRaakaAineet = drinkinRaakaAineet;
     }
     
-    public HashMap<RaakaAine, Integer> getRaakaAineet() {
-        return this.raakaAineet;
-    }
-    
-    public HashMap<RaakaAine, Integer> getRaakaAineMaarat() {
-        return this.raakaAineMaarat;
-    }
-    
-    public List<String> getOhjeet() {
-        return this.ohje;
+    public List<DrinkkiRaakaAine> getRaakaAineet() {
+        return this.drinkinRaakaAineet;
     }
 }

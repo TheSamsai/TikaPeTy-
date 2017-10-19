@@ -40,8 +40,6 @@ public class DrinkkiDao {
             return palautettavat;
         }
     }
-    
-    
 
     public Drinkki findDrinkkiById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
@@ -116,16 +114,13 @@ public class DrinkkiDao {
 
             String nimi = raakaAineTulos.getString("nimi");
             int id = raakaAineTulos.getInt("id");
-             
+
             return new RaakaAine(nimi, id);
         }
     }
 
     public Drinkki addDrinkki(Drinkki drinkki) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
-            // Tarkista ettei ole samannimisiä
-
-            // Insert statement
             PreparedStatement insertti = conn.prepareStatement("Insert INTO Drinkki (nimi) VALUES (?)");
             insertti.setString(1, drinkki.getNimi());
 
@@ -133,32 +128,45 @@ public class DrinkkiDao {
 
             PreparedStatement haku = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
             haku.setString(1, drinkki.getNimi());
-            
+
             ResultSet drinkkiHaku = haku.executeQuery();
-            
+
             int id = drinkkiHaku.getInt("id");
             
+            return new Drinkki(drinkki.getNimi(), id);
+        }
+    }
+
+    public Drinkki addDrinkkiRaakaAineilla(Drinkki drinkki) throws SQLException {
+        try (Connection conn = tietokanta.getConnection()) {
+            PreparedStatement haku = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
+            haku.setString(1, drinkki.getNimi());
+
+            ResultSet drinkkiHaku = haku.executeQuery();
+
+            int id = drinkkiHaku.getInt("id");
+
             for (RaakaAine r : drinkki.getRaakaAineet().keySet()) {
                 PreparedStatement drinkkiRaakaAine = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, ohje, jarjestys, maara) VALUES (?, ?. ?, ?, ?)");
                 drinkkiRaakaAine.setInt(1, id);
-                
+
                 if (r.getId() == -1) {
                     return null;
                 } else {
                     drinkkiRaakaAine.setInt(2, r.getId());
-                    
+
                 }
-                
+
                 int jarj = drinkki.getRaakaAineet().get(r);
                 int maara = drinkki.getRaakaAineMaarat().get(r);
-                
+
                 drinkkiRaakaAine.setString(3, drinkki.getOhjeet().get(jarj));
                 drinkkiRaakaAine.setInt(4, jarj);
                 drinkkiRaakaAine.setInt(5, maara);
-                
+
                 drinkkiRaakaAine.executeUpdate();
             }
-            
+
             return new Drinkki(drinkki.getNimi(), id, drinkki.getRaakaAineet(), drinkki.getRaakaAineMaarat(), drinkki.getOhjeet());
         }
     }
