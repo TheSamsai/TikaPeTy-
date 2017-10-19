@@ -27,4 +27,8 @@ public class RaakaAine {
         return nimi;
     }
     
+    public int getId() {
+        return this.id;
+    }
+    
 }
