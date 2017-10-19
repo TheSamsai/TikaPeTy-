@@ -57,17 +57,14 @@ public class DrinkkiDao {
 
             ResultSet raakaAineTulokset = raakaAineet.executeQuery();
 
-            HashMap<RaakaAine, Integer> drinkinRaakaAineet = new HashMap<>();
-            HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
-            ArrayList<String> ohje = new ArrayList<>();
+            ArrayList<DrinkkiRaakaAine> drinkinRaakaAineet = new ArrayList<>();
 
             while (raakaAineTulokset.next()) {
-                drinkinRaakaAineet.put(findRaakaAineById(rs.getInt("id")), rs.getInt("jarjestys"));
-                raakaAineidenMaarat.put(findRaakaAineById(rs.getInt("id")), rs.getInt("maara"));
-                ohje.add(rs.getString("ohje"));
+                drinkinRaakaAineet.add(new DrinkkiRaakaAine(findRaakaAineById(raakaAineTulokset.getInt("raakaAine_id")), raakaAineTulokset.getInt("maara"),
+                        raakaAineTulokset.getInt("jarjestys"), raakaAineTulokset.getString("ohje")));
             }
 
-            Drinkki palautettava = new Drinkki(nimi, id, drinkinRaakaAineet, raakaAineidenMaarat, ohje);
+            Drinkki palautettava = new Drinkki(nimi, id, drinkinRaakaAineet);
 
             return palautettava;
         }
@@ -136,7 +133,8 @@ public class DrinkkiDao {
             return new Drinkki(drinkki.getNimi(), id);
         }
     }
-
+    
+    /*
     public Drinkki addDrinkkiRaakaAineilla(Drinkki drinkki) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement haku = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
@@ -169,7 +167,7 @@ public class DrinkkiDao {
 
             return new Drinkki(drinkki.getNimi(), id, drinkki.getRaakaAineet(), drinkki.getRaakaAineMaarat(), drinkki.getOhjeet());
         }
-    }
+    }*/
 
     // TODO:    Erilaiset vaadittavat kyselyt
     //          Raaka-aineet yhdessä ja id:n mukaan
