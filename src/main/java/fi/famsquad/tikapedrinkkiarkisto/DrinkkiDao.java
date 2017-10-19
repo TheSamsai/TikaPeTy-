@@ -41,6 +41,19 @@ public class DrinkkiDao {
         }
     }
 
+    public Drinkki findDrinkkiByNimi(String nimi) throws SQLException {
+        try (Connection conn = tietokanta.getConnection()) {
+            PreparedStatement drinkki = conn.prepareStatement("SELECT * FROM Drinkki WHERE nimi = ?");
+            drinkki.setString(1, nimi);
+
+            ResultSet rs = drinkki.executeQuery();
+
+            int id = rs.getInt("id");
+            
+            return findDrinkkiById(id);
+        }
+    }
+
     public Drinkki findDrinkkiById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             // Drinkille nimi
@@ -81,7 +94,20 @@ public class DrinkkiDao {
             return palautettavat;
         }
     }
+    
+    public RaakaAine findRaakaAineByNimi(String nimi) throws SQLException {
+        try (Connection conn = tietokanta.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?");
+            statement.setString(1, nimi);
 
+            ResultSet rs = statement.executeQuery();
+
+            int id = rs.getInt("id");
+            
+            return findRaakaAineById(id);
+        }
+    }
+    
     public RaakaAine findRaakaAineById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
@@ -104,15 +130,7 @@ public class DrinkkiDao {
 
             insertti.executeUpdate();
 
-            PreparedStatement haku = conn.prepareStatement("SELECT id FROM RaakaAine WHERE nimi = ?");
-            haku.setString(1, raakaAine.getNimi());
-
-            ResultSet raakaAineTulos = haku.executeQuery();
-
-            String nimi = raakaAineTulos.getString("nimi");
-            int id = raakaAineTulos.getInt("id");
-
-            return new RaakaAine(nimi, id);
+            return findRaakaAineByNimi(raakaAine.getNimi());
         }
     }
 
@@ -123,52 +141,18 @@ public class DrinkkiDao {
 
             insertti.executeUpdate();
 
-            PreparedStatement haku = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
-            haku.setString(1, drinkki.getNimi());
-
-            ResultSet drinkkiHaku = haku.executeQuery();
-
-            int id = drinkkiHaku.getInt("id");
-            
-            return new Drinkki(drinkki.getNimi(), id);
+            return findDrinkkiByNimi(drinkki.getNimi());
         }
     }
+
     
-    /*
     public Drinkki addDrinkkiRaakaAineilla(Drinkki drinkki) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
-            PreparedStatement haku = conn.prepareStatement("SELECT id FROM Drinkki WHERE nimi = ?");
-            haku.setString(1, drinkki.getNimi());
+            Drinkki uusidrinkki = findDrinkkiById(drinkki.getId());
 
-            ResultSet drinkkiHaku = haku.executeQuery();
-
-            int id = drinkkiHaku.getInt("id");
-
-            for (RaakaAine r : drinkki.getRaakaAineet().keySet()) {
-                PreparedStatement drinkkiRaakaAine = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, ohje, jarjestys, maara) VALUES (?, ?. ?, ?, ?)");
-                drinkkiRaakaAine.setInt(1, id);
-
-                if (r.getId() == -1) {
-                    return null;
-                } else {
-                    drinkkiRaakaAine.setInt(2, r.getId());
-
-                }
-
-                int jarj = drinkki.getRaakaAineet().get(r);
-                int maara = drinkki.getRaakaAineMaarat().get(r);
-
-                drinkkiRaakaAine.setString(3, drinkki.getOhjeet().get(jarj));
-                drinkkiRaakaAine.setInt(4, jarj);
-                drinkkiRaakaAine.setInt(5, maara);
-
-                drinkkiRaakaAine.executeUpdate();
-            }
-
-            return new Drinkki(drinkki.getNimi(), id, drinkki.getRaakaAineet(), drinkki.getRaakaAineMaarat(), drinkki.getOhjeet());
+            
         }
-    }*/
-
+    }
     // TODO:    Erilaiset vaadittavat kyselyt
     //          Raaka-aineet yhdessä ja id:n mukaan
     //          Drinkit id:n mukaan
