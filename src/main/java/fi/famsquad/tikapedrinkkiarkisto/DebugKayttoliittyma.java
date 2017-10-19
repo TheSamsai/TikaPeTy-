@@ -8,6 +8,7 @@ package fi.famsquad.tikapedrinkkiarkisto;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -43,28 +44,31 @@ public class DebugKayttoliittyma {
                 String nimi = lukija.nextLine();
                 Drinkki uusiDrinkki = dao.addDrinkki(new Drinkki(nimi));
                 
-                System.out.println("Kuvaile resepti:");
-                HashMap<RaakaAine, Integer> raakaAineet = new HashMap<>();
-                HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
-                ArrayList<String> ohje = new ArrayList<>();
-                
-                while (true) {
-                    System.out.print("Lisättävä raaka-aine: ");
-                    int id = lukija.nextInt();
-                    
-                    if (id < 0) {
-                        break;
-                    }
-                    
-                    System.out.print("Määrä: ");
-                    int maara = lukija.nextInt();
-                    
-                    System.out.print("Järjestys: ");
-                    int jarj = lukija.nextInt();
-                    
-                    System.out.print("Ohje: ");
-                    String ohje = lukija.nextLine();
-                }
+//                System.out.println("Kuvaile resepti:");
+//                HashMap<RaakaAine, Integer> raakaAineet = new HashMap<>();
+//                HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
+//                ArrayList<String> ohje = new ArrayList<>();
+//                
+//                while (true) {
+//                    System.out.print("Lisättävä raaka-aine: ");
+//                    int id = lukija.nextInt();
+//                    
+//                    if (id < 0) {
+//                        break;
+//                    }
+//                    
+//                    System.out.print("Määrä: ");
+//                    int maara = lukija.nextInt();
+//                    
+//                    System.out.print("Järjestys: ");
+//                    int jarj = lukija.nextInt();
+//                    
+//                    System.out.print("Ohje: ");
+//                    String ohje = lukija.nextLine();
+//                }
+            } else if (komento.equals("3")){
+                List<RaakaAine> raakaAineLista = dao.findAllRaakaAine();
+                raakaAineLista.forEach(raakaAine -> System.out.println(raakaAine.getNimi()));
             }
         }
     }
