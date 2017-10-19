@@ -14,7 +14,7 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        Tietokanta tietokanta = new Tietokanta("drinkkitietokanta.db");
+        Tietokanta tietokanta = new Tietokanta("db/drinkkitietokanta.db");
         DrinkkiDao dDao = new DrinkkiDao(tietokanta);
         Verkkosivu verkkosivu = new Verkkosivu(dDao);
     }
