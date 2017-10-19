@@ -14,14 +14,15 @@ import java.sql.SQLException;
  * @author sami
  */
 public class Tietokanta {
-    private Connection tietokanta;
+    private String tietokanta;
     
     public Tietokanta(String tietokantaSijainti) throws SQLException {
-        this.tietokanta = DriverManager.getConnection("jdbc:sqlite:" + tietokantaSijainti); 
-    // tällä tavalla voidaan syöttää suoraan tiedoston nimi ilman että parametreinä tarvittaisiin ajurilähteitä -mattiost
+        this.tietokanta = tietokantaSijainti; 
+        // tällä tavalla voidaan syöttää suoraan tiedoston nimi ilman että parametreinä tarvittaisiin ajurilähteitä -mattiost
+        // Noice
     }
     
-    public Connection getConnection() {
-        return this.tietokanta;
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:sqlite:" + tietokanta);
     }
 }
