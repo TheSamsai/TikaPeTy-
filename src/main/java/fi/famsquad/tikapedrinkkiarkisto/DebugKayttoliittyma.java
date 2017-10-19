@@ -69,6 +69,34 @@ public class DebugKayttoliittyma {
             } else if (komento.equals("3")) {
                 List<RaakaAine> raakaAineLista = dao.findAllRaakaAine();
                 raakaAineLista.forEach(raakaAine -> System.out.println(raakaAine.getNimi()));
+                
+                System.out.println("Kuvaile resepti:");
+                HashMap<RaakaAine, Integer> raakaAineet = new HashMap<>();
+                HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
+                ArrayList<String> ohjeet = new ArrayList<>();
+                
+                while (true) {
+                    System.out.print("Lisättävä raaka-aine: ");
+                    int id = lukija.nextInt();
+                    
+                    if (id < 0) {
+                        break;
+                    }
+                    
+                    System.out.print("Määrä: ");
+                    int maara = lukija.nextInt();
+                    
+                    System.out.print("Järjestys: ");
+                    int jarj = lukija.nextInt();
+                    
+                    System.out.print("Ohje: ");
+                    String ohje = lukija.nextLine();
+                }
+                
+            } else if (komento.equals("4")) {
+                for (int i = 0; i < dao.findAllDrinkki().size(); i++) {
+                    System.out.println(dao.findAllDrinkki().get(i).getNimi());
+                }
             }
 
             System.out.print("Määrä: ");
