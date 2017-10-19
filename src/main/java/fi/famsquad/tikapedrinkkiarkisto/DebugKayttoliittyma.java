@@ -14,8 +14,8 @@ import java.util.Scanner;
  *
  * @author sami
  */
-
 public class DebugKayttoliittyma {
+
     private DrinkkiDao dao;
     
     public DebugKayttoliittyma(DrinkkiDao dao) throws SQLException {
@@ -46,7 +46,7 @@ public class DebugKayttoliittyma {
                 System.out.println("Kuvaile resepti:");
                 HashMap<RaakaAine, Integer> raakaAineet = new HashMap<>();
                 HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
-                ArrayList<String> ohje = new ArrayList<>();
+                ArrayList<String> ohjeet = new ArrayList<>();
                 
                 while (true) {
                     System.out.print("Lisättävä raaka-aine: ");
@@ -64,6 +64,11 @@ public class DebugKayttoliittyma {
                     
                     System.out.print("Ohje: ");
                     String ohje = lukija.nextLine();
+                }
+                
+            } else if (komento.equals("4")) {
+                for (int i = 0; i < dao.findAllDrinkki().size(); i++) {
+                    System.out.println(dao.findAllDrinkki().get(i).getNimi());
                 }
             }
         }
