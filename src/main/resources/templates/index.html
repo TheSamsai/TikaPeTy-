@@ -17,14 +17,25 @@
             <input type="submit" value="Lisää"/>
         </form>
         <h2>Lisää raaka-aineita</h2>
-        <p>Smoothien nimi</p>
-        <select class="form-control" name="drinkkiSelect">
-            <option th:each="drinkki : ${drinkkilista}" th:text="${drinkki.nimi}">Drinkki</option>
-        </select>
-        <p>Lisättävä raaka-aine</p>
-        <select class="form-control" name="raakisSelect">
-            <option th:each="raakis : ${raakislista}" th:text="${raakis.nimi}">Raakis</option>
-        </select>
 
+
+
+        <form method="POST" action="/drinkkimikseri">
+            <p>Smoothien nimi<br/>
+            <select class="form-control" name="drinkkiSelect">
+                <option th:each="drinkki : ${drinkkilista}" th:text="${drinkki.nimi}">Drinkki</option>
+            </select>
+                <br/>Lisättävä raaka-aine:<br/>
+            <select class="form-control" name="raakisSelect">
+                <option th:each="raakis : ${raakislista}" th:text="${raakis.nimi}">Raakis</option>
+            </select>
+                <br/>Järjestys<br/>
+            <input type="text" name="jarjestys"/><br/>
+            Määrä<br/>
+            <input type="text" name="maara"/><br/>
+            Ohje<br/>
+            <input type="text" name="ohje"/><br/>
+            <input type="submit" value="Lisää opiskelija"/>
+        </form>
     </body>
 </html>
