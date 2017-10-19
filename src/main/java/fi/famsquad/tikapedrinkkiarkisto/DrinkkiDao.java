@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,13 +26,16 @@ public class DrinkkiDao {
     public List<Drinkki> findAllDrinkki() throws SQLException {
         List<Drinkki> palautettavat = new ArrayList<>();
         
-        PreparedStatement statement = tietokanta.getConnection().prepareStatement("SELECT * FROM Drinkki");
-        ResultSet rs = statement.executeQuery();
+        PreparedStatement drinkki = tietokanta.getConnection().prepareStatement("SELECT * FROM Drinkki");
+        
+        ResultSet rs = drinkki.executeQuery();
+        
+        while (rs.next()) {
+            palautettavat.add(findDrinkkiById(rs.getInt("id")));
+        }
         
         return palautettavat;
     }
-    /*
-    TODO: Korjaa toimivaksi
     
     public Drinkki findDrinkkiById(int id) throws SQLException {
         // Drinkille nimi
@@ -48,16 +52,18 @@ public class DrinkkiDao {
         
         ResultSet raakaAineTulokset = raakaAineet.executeQuery();
         
-        ArrayList<RaakaAine> drinkinRaakaAineet = new ArrayList<>();
+        HashMap<RaakaAine, Integer> drinkinRaakaAineet = new HashMap<>();
+        ArrayList<String> ohje = new ArrayList<>();
         
         while (raakaAineTulokset.next()) {
-            drinkinRaakaAineet.add(findRaakaAineById(rs.getInt("id")));
+            drinkinRaakaAineet.put(findRaakaAineById(rs.getInt("id")), rs.getInt("jarjestys"));
+            ohje.add(rs.getString("ohje"));
         }
         
-        Drinkki palautettava = new Drinkki(nimi, drinkinRaakaAineet);
+        Drinkki palautettava = new Drinkki(nimi, drinkinRaakaAineet, ohje);
         
-        return ra;
-    }*/
+        return palautettava;
+    }
     
     public List<RaakaAine> findAllRaakaAine() throws SQLException {
         List<RaakaAine> palautettavat = new ArrayList<>();
@@ -81,13 +87,28 @@ public class DrinkkiDao {
         return ra;
     }
     
-    public void addRaakaAine(RaakaAine raakaAine) {
+    public void addRaakaAine(RaakaAine raakaAine) throws SQLException {
         // Insert statement
+        
+        PreparedStatement insertti = tietokanta.getConnection().prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)");
+        insertti.setString(1, raakaAine.getNimi());
+        
+        insertti.executeUpdate();
     }
     
-    public void addDrinkki(Drinkki drinkki) {
+    /*
+    public void addDrinkki(Drinkki drinkki) throws SQLException {
         // Insert statement
-    }
+        
+        PreparedStatement insertti = tietokanta.getConnection().prepareStatement("Insert INTO Drinkki (nimi) VALUES (?)");
+        insertti.setString(1, drinkki.getNimi());
+        
+        insertti.executeUpdate();
+        
+        for (RaakaAine r : drinkki.getRaakaAineet().keySet()) {
+            PreparedStatement drinkkiRaakaAine = tietokanta.getConnection().prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id)");
+        }
+    }*/
     
     
     // TODO:    Erilaiset vaadittavat kyselyt
