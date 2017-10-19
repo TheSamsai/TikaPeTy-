@@ -153,12 +153,12 @@ public class DrinkkiDao {
     /*
     public void addRaakaAineDrinkkiin(Drinkki )
      */
-    public Drinkki addDrinkkiinRaakaAine(Drinkki drinkki, DrinkkiRaakaAine dra) throws SQLException {
+    public void addDrinkkiinRaakaAine(Drinkki drinkki, DrinkkiRaakaAine dra) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
-            Drinkki uusidrinkki = findDrinkkiById(drinkki.getId());
+//            Drinkki uusidrinkki = findDrinkkiById(drinkki.getId());
 
-            PreparedStatement lisays = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, järjestys, maara, ohje) VALUES (?. ?, ?, ?, ?)");
-            lisays.setInt(1, uusidrinkki.getId());
+            PreparedStatement lisays = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)");
+            lisays.setInt(1, drinkki.getId());
             lisays.setInt(2, dra.getRaakaAine().getId());
             lisays.setInt(3, dra.getJarjestys());
             lisays.setInt(4, dra.getMaara());
@@ -166,7 +166,24 @@ public class DrinkkiDao {
 
             lisays.executeUpdate();
 
-            return uusidrinkki;
+//            return uusidrinkki;
+        }
+    }
+
+    public List<DrinkkiRaakaAine> findAllDrinkinRaakaAineet(int drinkinId) throws SQLException {
+        try (Connection conn = tietokanta.getConnection()) {
+            PreparedStatement haku = conn.prepareStatement("SELECT * FROM DrinkkiRaakaAine WHERE drinkki_id = ?");
+            haku.setInt(1, drinkinId);
+
+            ResultSet rSet = haku.executeQuery();
+            List<DrinkkiRaakaAine> draLista = new ArrayList<>();
+
+            while (rSet.next()) {
+                DrinkkiRaakaAine dra = new DrinkkiRaakaAine(findRaakaAineById(rSet.getInt("drinkki_id")), rSet.getInt("maara"), rSet.getInt("jarjestys"), rSet.getString("ohje"));
+                draLista.add(dra);
+            }
+
+            return draLista;
         }
     }
 

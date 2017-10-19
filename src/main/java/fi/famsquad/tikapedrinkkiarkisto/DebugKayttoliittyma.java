@@ -29,6 +29,11 @@ public class DebugKayttoliittyma {
         System.out.println("2. lisää drinkki");
         System.out.println("3. näytä raaka-aineet");
         System.out.println("4. näytä drinkit");
+        System.out.println("5. lisää drinkkiin raaka-aine");
+        System.out.println("6. Näytä drinkin raaka-aineet");
+        System.out.println("7. Poista Drinkki(toteuttamatta");
+        System.out.println("8. Poista Raaka-aine(toteuttamatta)");
+        System.out.println("9. Poista Drinkistä raaka-aine(toteuttamatta)");
 
         while (true) {
             System.out.print("> ");
@@ -74,6 +79,25 @@ public class DebugKayttoliittyma {
                 for (int i = 0; i < dao.findAllDrinkki().size(); i++) {
                     System.out.println(dao.findAllDrinkki().get(i).getNimi());
                 }
+            }  else if (komento.equals("5")) {
+                System.out.print("Syötä drinkin id: ");
+                int drinkinId = Integer.parseInt(lukija.nextLine());
+                Drinkki drinkkiJohonLisataan = dao.findDrinkkiById(drinkinId);
+                System.out.print("Syötä lisättävän raaka-aineen id: ");
+                int raakaAineId = Integer.parseInt(lukija.nextLine());
+                RaakaAine lisattavaRaakaAine = dao.findRaakaAineById(raakaAineId);
+                System.out.println("Syötä määrä: ");
+                int maara = Integer.parseInt(lukija.nextLine());
+                System.out.println("Syötä järjestysnumero: ");
+                int jarjestys = Integer.parseInt(lukija.nextLine());
+                System.out.println("Syötä ohje: ");
+                String ohje = lukija.nextLine();
+                DrinkkiRaakaAine dra = new DrinkkiRaakaAine(lisattavaRaakaAine, maara, jarjestys, ohje);
+                dao.addDrinkkiinRaakaAine(drinkkiJohonLisataan, dra);
+            } else if (komento.equals("6")) {
+                System.out.println("Syötä drinkin id");
+                List<DrinkkiRaakaAine> draLista = dao.findAllDrinkinRaakaAineet(Integer.parseInt(lukija.nextLine()));
+                draLista.forEach(dra -> System.out.println(dra.getRaakaAine().getNimi()));
             }
         }
     }
