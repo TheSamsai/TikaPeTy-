@@ -135,19 +135,7 @@ public class DrinkkiDao {
 
             insertti.executeUpdate();
 
-<<<<<<< HEAD
-            PreparedStatement haku = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?");
-            haku.setString(1, raakaAine.getNimi());
-
-            ResultSet raakaAineTulos = haku.executeQuery();
-
-            String nimi = raakaAineTulos.getString("nimi");
-            int id = raakaAineTulos.getInt("id");
-
-            return new RaakaAine(nimi, id);
-=======
             return findRaakaAineByNimi(raakaAine.getNimi());
->>>>>>> bc284153fe606084d4b792e91b688dc538b64c7f
         }
     }
 
