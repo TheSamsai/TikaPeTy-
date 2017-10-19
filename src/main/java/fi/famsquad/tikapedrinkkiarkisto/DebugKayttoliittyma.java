@@ -98,15 +98,6 @@ public class DebugKayttoliittyma {
                     System.out.println(dao.findAllDrinkki().get(i).getNimi());
                 }
             }
-
-            System.out.print("Määrä: ");
-            int maara = lukija.nextInt();
-
-            System.out.print("Järjestys: ");
-            int jarj = lukija.nextInt();
-
-            System.out.print("Ohje: ");
-            String ohje = lukija.nextLine();
         }
     }
 }
