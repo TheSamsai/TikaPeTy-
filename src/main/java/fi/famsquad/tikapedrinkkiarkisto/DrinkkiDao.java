@@ -49,7 +49,7 @@ public class DrinkkiDao {
             ResultSet rs = drinkki.executeQuery();
 
             int id = rs.getInt("id");
-            
+
             return findDrinkkiById(id);
         }
     }
@@ -90,8 +90,8 @@ public class DrinkkiDao {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine");
 
             ResultSet rs = statement.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 String nimi = rs.getString("nimi");
                 palautettavat.add(new RaakaAine(nimi));
             }
@@ -99,7 +99,7 @@ public class DrinkkiDao {
             return palautettavat;
         }
     }
-    
+
     public RaakaAine findRaakaAineByNimi(String nimi) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?");
@@ -108,11 +108,11 @@ public class DrinkkiDao {
             ResultSet rs = statement.executeQuery();
 
             int id = rs.getInt("id");
-            
+
             return findRaakaAineById(id);
         }
     }
-    
+
     public RaakaAine findRaakaAineById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
@@ -149,30 +149,27 @@ public class DrinkkiDao {
             return findDrinkkiByNimi(drinkki.getNimi());
         }
     }
-    
+
     /*
     public void addRaakaAineDrinkkiin(Drinkki )
-    */
-    
-    public Drinkki addDrinkkiRaakaAineilla(Drinkki drinkki) throws SQLException {
+     */
+    public Drinkki addDrinkkiinRaakaAine(Drinkki drinkki, DrinkkiRaakaAine dra) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             Drinkki uusidrinkki = findDrinkkiById(drinkki.getId());
 
-            for (DrinkkiRaakaAine a : uusidrinkki.getRaakaAineet()) {
-                PreparedStatement lisays = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, järjestys, maara, ohje) VALUES (?. ?, ?, ?, ?)");
-                lisays.setInt(1, uusidrinkki.getId());
-                lisays.setInt(2, a.getRaakaAine().getId());
-                lisays.setInt(3, a.getJarjestys());
-                lisays.setInt(4, a.getMaara());
-                lisays.setString(5, a.getOhje());
-                
-                lisays.executeUpdate();
-            }
-            
+            PreparedStatement lisays = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, järjestys, maara, ohje) VALUES (?. ?, ?, ?, ?)");
+            lisays.setInt(1, uusidrinkki.getId());
+            lisays.setInt(2, dra.getRaakaAine().getId());
+            lisays.setInt(3, dra.getJarjestys());
+            lisays.setInt(4, dra.getMaara());
+            lisays.setString(5, dra.getOhje());
+
+            lisays.executeUpdate();
+
             return uusidrinkki;
         }
     }
-    
+
     // TODO:    Erilaiset vaadittavat kyselyt
     //          Raaka-aineet yhdessä ja id:n mukaan
     //          Drinkit id:n mukaan
