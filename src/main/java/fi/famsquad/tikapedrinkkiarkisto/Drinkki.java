@@ -53,6 +53,10 @@ public class Drinkki {
         this.drinkinRaakaAineet = drinkinRaakaAineet;
     }
     
+    public void lisaaRaakaAine(DrinkkiRaakaAine raakaAine) {
+        this.drinkinRaakaAineet.add(raakaAine);
+    }
+    
     public List<DrinkkiRaakaAine> getRaakaAineet() {
         return this.drinkinRaakaAineet;
     }

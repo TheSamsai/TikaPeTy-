@@ -149,15 +149,30 @@ public class DrinkkiDao {
             return findDrinkkiByNimi(drinkki.getNimi());
         }
     }
-
+    
+    /*
+    public void addRaakaAineDrinkkiin(Drinkki )
+    */
     
     public Drinkki addDrinkkiRaakaAineilla(Drinkki drinkki) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             Drinkki uusidrinkki = findDrinkkiById(drinkki.getId());
 
+            for (DrinkkiRaakaAine a : uusidrinkki.getRaakaAineet()) {
+                PreparedStatement lisays = conn.prepareStatement("INSERT INTO DrinkkiRaakaAine (drinkki_id, raakaAine_id, järjestys, maara, ohje) VALUES (?. ?, ?, ?, ?)");
+                lisays.setInt(1, uusidrinkki.getId());
+                lisays.setInt(2, a.getRaakaAine().getId());
+                lisays.setInt(3, a.getJarjestys());
+                lisays.setInt(4, a.getMaara());
+                lisays.setString(5, a.getOhje());
+                
+                lisays.executeUpdate();
+            }
             
+            return uusidrinkki;
         }
     }
+    
     // TODO:    Erilaiset vaadittavat kyselyt
     //          Raaka-aineet yhdessä ja id:n mukaan
     //          Drinkit id:n mukaan
