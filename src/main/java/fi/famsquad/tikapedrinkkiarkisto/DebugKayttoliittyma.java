@@ -15,35 +15,35 @@ import java.util.Scanner;
  *
  * @author sami
  */
-
 public class DebugKayttoliittyma {
+
     private DrinkkiDao dao;
-    
+
     public DebugKayttoliittyma(DrinkkiDao dao) throws SQLException {
         this.dao = dao;
-        
+
         Scanner lukija = new Scanner(System.in);
-        
+
         System.out.println("DrinkkiArkiston debug-käyttöliittymä:");
         System.out.println("1. lisää raaka-aine");
         System.out.println("2. lisää drinkki");
         System.out.println("3. näytä raaka-aineet");
         System.out.println("4. näytä drinkit");
-        
+
         while (true) {
             System.out.print("> ");
             String komento = lukija.nextLine();
-            
+
             if (komento.equals("1")) {
                 System.out.print("Raaka-aineen nimi: ");
                 String nimi = lukija.nextLine();
-                
+
                 dao.addRaakaAine(new RaakaAine(nimi));
             } else if (komento.equals("2")) {
                 System.out.print("Drinkin nimi: ");
                 String nimi = lukija.nextLine();
                 Drinkki uusiDrinkki = dao.addDrinkki(new Drinkki(nimi));
-                
+
 //                System.out.println("Kuvaile resepti:");
 //                HashMap<RaakaAine, Integer> raakaAineet = new HashMap<>();
 //                HashMap<RaakaAine, Integer> raakaAineidenMaarat = new HashMap<>();
@@ -66,10 +66,19 @@ public class DebugKayttoliittyma {
 //                    System.out.print("Ohje: ");
 //                    String ohje = lukija.nextLine();
 //                }
-            } else if (komento.equals("3")){
+            } else if (komento.equals("3")) {
                 List<RaakaAine> raakaAineLista = dao.findAllRaakaAine();
                 raakaAineLista.forEach(raakaAine -> System.out.println(raakaAine.getNimi()));
             }
+
+            System.out.print("Määrä: ");
+            int maara = lukija.nextInt();
+
+            System.out.print("Järjestys: ");
+            int jarj = lukija.nextInt();
+
+            System.out.print("Ohje: ");
+            String ohje = lukija.nextLine();
         }
     }
 }

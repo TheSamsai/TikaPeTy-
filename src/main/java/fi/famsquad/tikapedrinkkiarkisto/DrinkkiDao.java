@@ -77,6 +77,11 @@ public class DrinkkiDao {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine");
 
             ResultSet rs = statement.executeQuery();
+            
+            while(rs.next()){
+                String nimi = rs.getString("nimi");
+                palautettavat.add(new RaakaAine(nimi));
+            }
 
             return palautettavat;
         }
@@ -104,7 +109,7 @@ public class DrinkkiDao {
 
             insertti.executeUpdate();
 
-            PreparedStatement haku = conn.prepareStatement("SELECT id FROM RaakaAine WHERE nimi = ?");
+            PreparedStatement haku = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?");
             haku.setString(1, raakaAine.getNimi());
 
             ResultSet raakaAineTulos = haku.executeQuery();

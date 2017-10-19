@@ -42,6 +42,8 @@ public class Verkkosivu {
     public void nakyvaDrinkkimikseri() {
         Spark.get("/drinkkimikseri", (req, res) -> {
             HashMap map = new HashMap<>();
+            map.put("drinkkilistaOikea", this.dDao.findAllDrinkki());
+            map.put("raakislistaoikea", this.dDao.findAllRaakaAine());
             map.put("drinkkilista", this.drinkkiListaTest);
             map.put("raakislista", this.raakaaineListaTest);
             return new ModelAndView(map, "index");
