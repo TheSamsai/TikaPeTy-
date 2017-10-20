@@ -31,9 +31,9 @@ public class DebugKayttoliittyma {
         System.out.println("4. näytä drinkit");
         System.out.println("5. lisää drinkkiin raaka-aine");
         System.out.println("6. Näytä drinkin raaka-aineet");
-        System.out.println("7. Poista Drinkki(toteuttamatta"); // <-- // Poistetaan drinkki, poistetaan DrinkkiRaakaAine taulut drinkille
-        System.out.println("8. Poista Raaka-aine(toteuttamatta)"); // Tyhjennä myös DrinkkiRaakaAine kyseiselle RaakaAineelle
-        System.out.println("9. Poista Drinkistä raaka-aine(toteuttamatta)"); // Vain DrinkkiRaakaAine taulu kyseiselle drinkille ja raaka-aineelle
+        System.out.println("7. Poista Drinkistä raaka-aine"); // Vain DrinkkiRaakaAine taulu kyseiselle drinkille ja raaka-aineelle
+        System.out.println("8. Poista Drinkki"); // <-- // Poistetaan drinkki, poistetaan DrinkkiRaakaAine taulut drinkille
+        System.out.println("9. Poista Raaka-aine"); // Tyhjennä myös DrinkkiRaakaAine kyseiselle RaakaAineelle
 
         while (true) {
             System.out.print("> ");
@@ -98,6 +98,20 @@ public class DebugKayttoliittyma {
                 System.out.println("Syötä drinkin id");
                 List<DrinkkiRaakaAine> draLista = dao.findAllDrinkinRaakaAineet(Integer.parseInt(lukija.nextLine()));
                 draLista.forEach(dra -> System.out.println(dra.getRaakaAine().getNimi()));
+            } else if (komento.equals("7")){
+                System.out.println("Syötä drinkin id");
+                int drinkkiId = Integer.parseInt(lukija.nextLine());
+                System.out.println("Syötä raaka-aineen id");
+                int raakaAineId = Integer.parseInt(lukija.nextLine());
+                dao.removeRaakaAineFromDrinkkiById(raakaAineId, drinkkiId);
+            } else if (komento.equals("8")){
+                System.out.println("Syötä drinkin id");
+                int drinkkiId = Integer.parseInt(lukija.nextLine());
+                dao.removeDrinkkiById(drinkkiId);
+            } else if (komento.equals("9")){
+                System.out.println("Syötä raaka-aineen id");
+                int raakaAineId = Integer.parseInt(lukija.nextLine());
+                dao.removeRaakaAineById(raakaAineId);
             }
         }
     }
