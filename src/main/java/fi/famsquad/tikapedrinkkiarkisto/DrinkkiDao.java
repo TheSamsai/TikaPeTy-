@@ -34,11 +34,15 @@ public class DrinkkiDao {
             ResultSet rs = drinkki.executeQuery();
 
             while (rs.next()) {
-                palautettavat.add(findDrinkkiById(rs.getInt("id")));
-            }
+                if (findDrinkkiById(rs.getInt("id")) != null) {
 
+                    palautettavat.add(findDrinkkiById(rs.getInt("id")));
+                }
+
+            }
             return palautettavat;
         }
+
     }
 
     public Drinkki findDrinkkiByNimi(String nimi) throws SQLException {
@@ -47,14 +51,17 @@ public class DrinkkiDao {
             drinkki.setString(1, nimi);
 
             ResultSet rs = drinkki.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
 
-            int id = rs.getInt("id");
-
-            return findDrinkkiById(id);
+                return findDrinkkiById(id);
+            }
+            return null;
         }
     }
 
     public Drinkki findDrinkkiById(int id) throws SQLException {
+        Drinkki palautettava = null;
         try (Connection conn = tietokanta.getConnection()) {
             // Drinkille nimi
             PreparedStatement drinkki = conn.prepareStatement("SELECT * FROM Drinkki WHERE id = ?");
@@ -76,8 +83,9 @@ public class DrinkkiDao {
                 drinkinRaakaAineet.add(new DrinkkiRaakaAine(findRaakaAineById(raakaAineTulokset.getInt("raakaAine_id")), raakaAineTulokset.getInt("maara"),
                         raakaAineTulokset.getInt("jarjestys"), raakaAineTulokset.getString("ohje")));
             }
-
-            Drinkki palautettava = new Drinkki(nimi, id, drinkinRaakaAineet);
+            if (!drinkinRaakaAineet.isEmpty() && !nimi.isEmpty()) {
+                palautettava = new Drinkki(nimi, id, drinkinRaakaAineet);
+            }
 
             return palautettava;
         }
@@ -106,14 +114,17 @@ public class DrinkkiDao {
             statement.setString(1, nimi);
 
             ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
 
-            int id = rs.getInt("id");
-
-            return findRaakaAineById(id);
+                return findRaakaAineById(id);
+            }
         }
+        return null;
     }
 
     public RaakaAine findRaakaAineById(int id) throws SQLException {
+        RaakaAine ra = null;
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
             statement.setInt(1, id);
@@ -121,8 +132,9 @@ public class DrinkkiDao {
             ResultSet rs = statement.executeQuery();
 
             String nimi = rs.getString("nimi");
-            RaakaAine ra = new RaakaAine(nimi, id);
-
+            if (!nimi.isEmpty()) {
+                ra = new RaakaAine(nimi, id);
+            }
             return ra;
         }
     }
