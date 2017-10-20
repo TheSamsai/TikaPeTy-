@@ -31,9 +31,9 @@ public class DebugKayttoliittyma {
         System.out.println("4. näytä drinkit");
         System.out.println("5. lisää drinkkiin raaka-aine");
         System.out.println("6. Näytä drinkin raaka-aineet");
-        System.out.println("7. Poista Drinkki(toteuttamatta");
-        System.out.println("8. Poista Raaka-aine(toteuttamatta)");
-        System.out.println("9. Poista Drinkistä raaka-aine(toteuttamatta)");
+        System.out.println("7. Poista Drinkki(toteuttamatta"); // <-- // Poistetaan drinkki, poistetaan DrinkkiRaakaAine taulut drinkille
+        System.out.println("8. Poista Raaka-aine(toteuttamatta)"); // Tyhjennä myös DrinkkiRaakaAine kyseiselle RaakaAineelle
+        System.out.println("9. Poista Drinkistä raaka-aine(toteuttamatta)"); // Vain DrinkkiRaakaAine taulu kyseiselle drinkille ja raaka-aineelle
 
         while (true) {
             System.out.print("> ");
