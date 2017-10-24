@@ -16,7 +16,8 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Tietokanta tietokanta = new Tietokanta("db/drinkkitietokanta.db");
         DrinkkiDao dDao = new DrinkkiDao(tietokanta);
-        DebugKayttoliittyma dbgUi = new DebugKayttoliittyma(dDao);
+//        DebugKayttoliittyma dbgUi = new DebugKayttoliittyma(dDao);
+        Verkkosivu vs = new  Verkkosivu(dDao);
         
     }
 }

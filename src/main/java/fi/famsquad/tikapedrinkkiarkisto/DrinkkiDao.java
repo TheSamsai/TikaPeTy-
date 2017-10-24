@@ -64,12 +64,12 @@ public class DrinkkiDao {
         Drinkki palautettava = null;
         try (Connection conn = tietokanta.getConnection()) {
             // Drinkille nimi
-            PreparedStatement drinkki = conn.prepareStatement("SELECT * FROM Drinkki WHERE id = ?");
-            drinkki.setInt(1, id);
+            PreparedStatement drinkinHakuStmt = conn.prepareStatement("SELECT * FROM Drinkki WHERE id = ?");
+            drinkinHakuStmt.setInt(1, id);
 
-            ResultSet rs = drinkki.executeQuery();
+            ResultSet drinkinHakuRSet = drinkinHakuStmt.executeQuery();
 
-            String nimi = rs.getString("nimi");
+            String nimi = drinkinHakuRSet.getString("nimi");
 
             // RaakaAineet
             PreparedStatement raakaAineet = conn.prepareStatement("SELECT * FROM DrinkkiRaakaAine WHERE drinkki_id = ?");
@@ -83,10 +83,10 @@ public class DrinkkiDao {
                 drinkinRaakaAineet.add(new DrinkkiRaakaAine(findRaakaAineById(raakaAineTulokset.getInt("raakaAine_id")), raakaAineTulokset.getInt("maara"),
                         raakaAineTulokset.getInt("jarjestys"), raakaAineTulokset.getString("ohje")));
             }
-            if (!drinkinRaakaAineet.isEmpty() && !nimi.isEmpty()) {
-                palautettava = new Drinkki(nimi, id, drinkinRaakaAineet);
-            }
-
+//            if (!drinkinRaakaAineet.isEmpty() && !nimi.isEmpty()) {
+            palautettava = new Drinkki(nimi, id, drinkinRaakaAineet);
+//            }
+//voidaan palauttaa tää musta tyhjän listankin kanssa -mattiost
             return palautettava;
         }
     }
@@ -101,7 +101,8 @@ public class DrinkkiDao {
 
             while (rs.next()) {
                 String nimi = rs.getString("nimi");
-                palautettavat.add(new RaakaAine(nimi));
+                int id = rs.getInt("id");
+                palautettavat.add(new RaakaAine(nimi, id));
             }
 
             return palautettavat;
@@ -198,31 +199,31 @@ public class DrinkkiDao {
             return draLista;
         }
     }
-    
+
     public void removeDrinkkiById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement tyhjennaDrinkkiRaakaAine = conn.prepareStatement("DELETE FROM DrinkkiRaakaAine WHERE drinkki_id = ?");
             tyhjennaDrinkkiRaakaAine.setInt(1, id);
             tyhjennaDrinkkiRaakaAine.executeUpdate();
-            
+
             PreparedStatement tyhjennaDrinkki = conn.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
             tyhjennaDrinkki.setInt(1, id);
             tyhjennaDrinkki.executeUpdate();
         }
     }
-    
+
     public void removeRaakaAineById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement tyhjennaDrinkkiRaakaAine = conn.prepareStatement("DELETE FROM DrinkkiRaakaAine WHERE raakaAine_id = ?");
             tyhjennaDrinkkiRaakaAine.setInt(1, id);
             tyhjennaDrinkkiRaakaAine.executeUpdate();
-            
+
             PreparedStatement tyhjennaRaakaAine = conn.prepareStatement("DELETE FROM RaakaAine WHERE id = ?");
             tyhjennaRaakaAine.setInt(1, id);
             tyhjennaRaakaAine.executeUpdate();
         }
     }
-    
+
     public void removeRaakaAineFromDrinkkiById(int raakaAineId, int drinkkiId) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {
             PreparedStatement tyhjennaDrinkkiRaakaAine = conn.prepareStatement("DELETE FROM DrinkkiRaakaAine WHERE drinkki_id = ? AND raakaAine_id = ?");
@@ -231,7 +232,7 @@ public class DrinkkiDao {
             tyhjennaDrinkkiRaakaAine.executeUpdate();
         }
     }
-    
+
     // TODO:    Erilaiset vaadittavat kyselyt
     //          Raaka-aineet yhdessä ja id:n mukaan
     //          Drinkit id:n mukaan

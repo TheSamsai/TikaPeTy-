@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
         <title>Drinkkimikseri</title>
         <meta charset="utf-8" />
     </head>
@@ -12,7 +14,7 @@
 
         <h2>Lisää uusi</h2>
         <form method="POST" action="/drinkkimikseri">
-            Smoothien nimi:<br/>
+            Drinkin nimi:<br/>
             <input type="text" name="drinkinNimi"/><br/>
             <input type="submit" value="Lisää"/>
         </form>
@@ -20,14 +22,14 @@
 
 
 
-        <form method="POST" action="/drinkkimikseri">
-            Smoothien nimi:<br/>
-            <select class="form-control" name="drinkkiSelect">
-                <option th:each="drinkki : ${drinkkilista}" th:text="${drinkki.nimi}">Drinkki</option>
+        <form method="POST" action="/drinkkiraakis">
+            Drinkin nimi:<br/>
+            <select name="drinkkiSelect">
+                <option th:each="drinkki : ${drinkkilista}" th:value="${drinkki.id}" th:text="${drinkki.nimi}">drinkki</option>
             </select>
             <br/>Lisättävä raaka-aine:<br/>
-            <select class="form-control" name="raakisSelect">
-                <option th:each="raakis : ${raakislista}" th:text="${raakis.nimi}">Raakis</option>
+            <select name="raakisSelect">
+                <option th:each="raakis : ${raakislista}" th:value="${raakis.id}" th:text="${raakis.nimi}">raakis</option>
             </select>
             <br/>Järjestys<br/>
             <input type="text" name="jarjestys"/><br/>
