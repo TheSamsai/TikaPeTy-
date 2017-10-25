@@ -43,6 +43,26 @@ public class Verkkosivu {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
+    }
+
+    public void drinkitSivu() {
+        Spark.get("/drinkit", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("drinkit", this.dDao.findAllDrinkki());
+
+            return new ModelAndView(map, "drinkit");
+        }, new ThymeleafTemplateEngine());
+    }
+
+    public void drinkkiSivu() {
+        Spark.get("/drinkit/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            int drinkkiId = Integer.parseInt(req.params(":id"));
+            map.put("drinkki", this.dDao.findDrinkkiById(drinkkiId));
+            map.put("raakaAineet", this.dDao.findAllDrinkinRaakaAineet(drinkkiId));
+            return new ModelAndView(map, "drinkki");
+        }, new ThymeleafTemplateEngine());
+
         // Loput getit tänne
         // Helppo redirekti joka ohjaa oikealle verkkosivulle
         // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
