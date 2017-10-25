@@ -56,6 +56,24 @@ public class Verkkosivu {
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/raakaaineet/:id", (req, res) -> {
+            int raakaAineId = Integer.parseInt(req.params(":id"));
+            dDao.removeRaakaAineById(raakaAineId);
+            
+            res.redirect("/raakaaineet");
+            return "";
+        });
+        
+        Spark.post("/lisaaraakaaine", (req, res) -> {
+            String nimi = req.queryParams("aine");
+
+            RaakaAine raakaAine = new RaakaAine(nimi);
+            raakaAine = dDao.addRaakaAine(raakaAine);
+            
+            res.redirect("/raakaaineet");
+            return "";
+        });
     }
     
     public void drinkitSivu() {
