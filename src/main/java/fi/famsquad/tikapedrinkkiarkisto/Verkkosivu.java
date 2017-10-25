@@ -31,6 +31,9 @@ public class Verkkosivu {
         nakyvaDrinkkimikseriSpark();
         lisaaDrinkkiSpark();
         lisaaDrinkkiinRaakaAineSpark();
+        
+        // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
+        catchAll();
     }
 
     // Pitäiskö posteille ja geteille olla eri nimet ihan vaan selkeyden vuoksi?
@@ -42,17 +45,6 @@ public class Verkkosivu {
             map.put("raakislista", this.dDao.findAllRaakaAine());
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
-
-        // Loput getit tänne
-        // Helppo redirekti joka ohjaa oikealle verkkosivulle
-        // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
-        Spark.get("*", (req, res) -> {
-            res.redirect("/drinkkimikseri");
-
-            return "";
-        });
-
-        // Tänne ei enempää gettejä, viimeisin getti on catch-all
     }
 
     public void lisaaDrinkkiSpark() {
@@ -78,6 +70,16 @@ public class Verkkosivu {
             DrinkkiRaakaAine dra = new DrinkkiRaakaAine(this.dDao.findRaakaAineById(raakiksenId), maara, jarjestys, ohje);
             this.dDao.addDrinkkiinRaakaAine(this.dDao.findDrinkkiById(drinkinId), dra);
             res.redirect("/drinkkimikseri");
+            return "";
+        });
+    }
+    
+    public void catchAll() {
+        // Helppo redirekti joka ohjaa oikealle verkkosivulle
+        // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
+        Spark.get("*", (req, res) -> {
+            res.redirect("/drinkkimikseri");
+
             return "";
         });
     }
