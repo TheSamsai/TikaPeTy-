@@ -34,7 +34,7 @@ public class Verkkosivu {
         drinkitSivu();
         drinkkiSivu();
         raakaAineet();
-        
+        poistaDrinkki();
         // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
         catchAll();
     }
@@ -48,7 +48,7 @@ public class Verkkosivu {
         }, new ThymeleafTemplateEngine());
 
     }
-    
+
     public void raakaAineet() throws SQLException {
         Spark.get("/raakaaineet", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -57,7 +57,7 @@ public class Verkkosivu {
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
     }
-    
+
     public void drinkitSivu() {
         Spark.get("/drinkit", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -73,10 +73,21 @@ public class Verkkosivu {
             Integer drinkkiId = Integer.parseInt(req.params(":id"));
             map.put("drinkki", this.dDao.findDrinkkiById(drinkkiId));
             map.put("raakaAineet", this.dDao.findAllDrinkinRaakaAineet(drinkkiId));
-        
+
             return new ModelAndView(map, "drinkki");
-           
+
         }, new ThymeleafTemplateEngine());
+    }
+
+    public void poistaDrinkki() {
+        Spark.post("/drinkit", (req, res) -> {
+             HashMap map = new HashMap<>();
+            Integer drinkkiID = Integer.parseInt(req.params("drinkki.id"));
+            //this.dDao.removeDrinkkiById(drinkkiID);
+
+            res.redirect("/drinkit");
+            return "";
+        });
     }
 
     public void lisaaDrinkkiSpark() {
@@ -105,7 +116,7 @@ public class Verkkosivu {
             return "";
         });
     }
-    
+
     public void catchAll() {
         // Helppo redirekti joka ohjaa oikealle verkkosivulle
         // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
