@@ -8,6 +8,7 @@ package fi.famsquad.tikapedrinkkiarkisto;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -58,6 +59,9 @@ public class Drinkki {
     }
     
     public List<DrinkkiRaakaAine> getRaakaAineet() {
-        return this.drinkinRaakaAineet;
+        return this.drinkinRaakaAineet.stream().sorted((o1, o2) -> {
+            
+            return o1.getJarjestys() - o2.getJarjestys();
+        }).collect(Collectors.toCollection(ArrayList::new));
     }
 }

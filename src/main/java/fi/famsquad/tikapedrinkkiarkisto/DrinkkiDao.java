@@ -131,8 +131,8 @@ public class DrinkkiDao {
             statement.setInt(1, id);
 
             ResultSet rs = statement.executeQuery();
-
-            String nimi = rs.getString("nimi");
+            
+           String nimi = rs.getString("nimi");
             if (!nimi.isEmpty()) {
                 ra = new RaakaAine(nimi, id);
             }
@@ -192,7 +192,7 @@ public class DrinkkiDao {
             List<DrinkkiRaakaAine> draLista = new ArrayList<>();
 
             while (rSet.next()) {
-                DrinkkiRaakaAine dra = new DrinkkiRaakaAine(findRaakaAineById(rSet.getInt("drinkki_id")), rSet.getInt("maara"), rSet.getInt("jarjestys"), rSet.getString("ohje"));
+                DrinkkiRaakaAine dra = new DrinkkiRaakaAine(findRaakaAineById(rSet.getInt("raakaAine_id")), rSet.getInt("maara"), rSet.getInt("jarjestys"), rSet.getString("ohje"));
                 draLista.add(dra);
             }
 
