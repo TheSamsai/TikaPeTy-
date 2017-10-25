@@ -31,7 +31,8 @@ public class Verkkosivu {
         nakyvaDrinkkimikseriSpark();
         lisaaDrinkkiSpark();
         lisaaDrinkkiinRaakaAineSpark();
-        
+        drinkitSivu();
+        drinkkiSivu();
         // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
         catchAll();
     }
@@ -69,11 +70,7 @@ public class Verkkosivu {
         // Loput getit tänne
         // Helppo redirekti joka ohjaa oikealle verkkosivulle
         // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
-        Spark.get("*", (req, res) -> {
-            res.redirect("/drinkkimikseri");
-
-            return "";
-        });
+       
 
         // Tänne ei enempää gettejä, viimeisin getti on catch-all
     }
