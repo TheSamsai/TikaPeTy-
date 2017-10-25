@@ -34,7 +34,7 @@ public class Verkkosivu {
         drinkitSivu();
         drinkkiSivu();
         raakaAineet();
-        poistaDrinkki();
+        
         // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
         catchAll();
     }
@@ -83,6 +83,14 @@ public class Verkkosivu {
 
             return new ModelAndView(map, "drinkit");
         }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/poistadrinkki/:id", (req, res) -> {
+            int drinkkiId = Integer.parseInt(req.params(":id"));
+            dDao.removeDrinkkiById(drinkkiId);
+            
+            res.redirect("/drinkit");
+            return "";
+        });
     }
 
     public void drinkkiSivu() {
@@ -97,16 +105,7 @@ public class Verkkosivu {
         }, new ThymeleafTemplateEngine());
     }
 
-    public void poistaDrinkki() {
-        Spark.post("/drinkit", (req, res) -> {
-             HashMap map = new HashMap<>();
-            Integer drinkkiID = Integer.parseInt(req.params("drinkki.id"));
-            //this.dDao.removeDrinkkiById(drinkkiID);
-
-            res.redirect("/drinkit");
-            return "";
-        });
-    }
+   
 
     public void lisaaDrinkkiSpark() {
         Spark.post("/drinkkimikseri", (req, res) -> {

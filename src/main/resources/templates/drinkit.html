@@ -10,10 +10,8 @@
         <h1>Drinkit</h1>
 
         <ul>
-            <li th:each="drinkki : ${drinkit}">
-                <a th:href="@{~/drinkit/{id}(id=${drinkki.id})}">
-                    <span th:text="${drinkki.nimi}">Drinkki</span>
-                </a>
+            <li th:each="drinkki : ${drinkit}"><a th:href="@{~/drinkit/{id}(id=${drinkki.id})}">
+                 <span th:value="${drinkki.id}" th:text="${drinkki.nimi}">Drinkki</span></a> <a th:href="@{~/poistadrinkki/{id}(id=${drinkki.id})}">Poista</a>
                 
             </li>
         </ul>
