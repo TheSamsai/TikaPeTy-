@@ -12,16 +12,17 @@
 
         <ul>
             <li th:each="raaka : ${raakaaineet}">
-                <span th:value="${raaka.id}" th:text="${raaka.nimi}">Raaka-aine</span>
+                <span th:value="${raaka.id}" th:text="${raaka.nimi}">Raaka-aine</span> <a th:href="@{~/raakaaineet/{id}(id=${raaka.id})}">Poista</a>
             </li>
         </ul>
 
         <h4>Lisää uusi raaka-aine</h4>
 
-        <form method="POST" action="/lisaaRaakaAine">
+        <form method="POST" action="/lisaaraakaaine">
             Raaka-aineen nimi:<br/>
             <input type="text" name="aine"/><br/>
             <input type="submit" value="Lisää"/>
         </form>
+    </body>
 </html>
 
