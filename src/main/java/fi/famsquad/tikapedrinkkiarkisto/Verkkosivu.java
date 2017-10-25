@@ -88,10 +88,12 @@ public class Verkkosivu {
     public void drinkkiSivu() {
         Spark.get("/drinkit/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            int drinkkiId = Integer.parseInt(req.params(":id"));
+            Integer drinkkiId = Integer.parseInt(req.params(":id"));
             map.put("drinkki", this.dDao.findDrinkkiById(drinkkiId));
             map.put("raakaAineet", this.dDao.findAllDrinkinRaakaAineet(drinkkiId));
+        
             return new ModelAndView(map, "drinkki");
+           
         }, new ThymeleafTemplateEngine());
     }
 
