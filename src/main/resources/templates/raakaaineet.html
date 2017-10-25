@@ -1,34 +1,27 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-<head>
-  <title>Raaka-aineet</title>
-</head>
-<body>
-  <h2>Raaka-aineet</h2>
-  
-  <ul>
-    <li th:each="raakaAine: ${raakaAineet}">
-        <span th:text="${raakaAine.nimi}">1</span>
-    </li>
-  </ul>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-  <h4>Lisää uusi raaka-aine</h4>
-  
-  <form method="POST" action="/lisaaRaakaAine">
-      Raaka-aineen nimi:<br/>
-      <input type="text" name="aine"/><br/>
-      <input type="submit" value="Lisää"/>
-  </form>
+    <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
 
-  <ul>
-    <li>
-      <a href="../">Smoothielistaukseen</a>
-    </li>
-  </ul>
+        <title>Raaka-aineet</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h2>Raaka-aineet</h2>
+
+        <ul>
+            <li th:each="raaka : ${raakaaineet}">
+                <span th:value="${raaka.id}" th:text="${raaka.nimi}">Raaka-aine</span>
+            </li>
+        </ul>
+
+        <h4>Lisää uusi raaka-aine</h4>
+
+        <form method="POST" action="/lisaaRaakaAine">
+            Raaka-aineen nimi:<br/>
+            <input type="text" name="aine"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
 </html>
 

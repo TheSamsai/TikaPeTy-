@@ -33,12 +33,12 @@ public class Verkkosivu {
         lisaaDrinkkiinRaakaAineSpark();
         drinkitSivu();
         drinkkiSivu();
+        raakaAineet();
+        
         // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
         catchAll();
     }
 
-    // Pitäiskö posteille ja geteille olla eri nimet ihan vaan selkeyden vuoksi?
-    // Esim "/lisaadrinkki" tai vastaava?
     public void nakyvaDrinkkimikseriSpark() {
         Spark.get("/drinkkimikseri", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -48,7 +48,16 @@ public class Verkkosivu {
         }, new ThymeleafTemplateEngine());
 
     }
+    
+    public void raakaAineet() throws SQLException {
+        Spark.get("/raakaaineet", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("raakaaineet", this.dDao.findAllRaakaAine());
 
+            return new ModelAndView(map, "raakaaineet");
+        }, new ThymeleafTemplateEngine());
+    }
+    
     public void drinkitSivu() {
         Spark.get("/drinkit", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -68,13 +77,6 @@ public class Verkkosivu {
             return new ModelAndView(map, "drinkki");
            
         }, new ThymeleafTemplateEngine());
-
-        // Loput getit tänne
-        // Helppo redirekti joka ohjaa oikealle verkkosivulle
-        // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
-       
-
-        // Tänne ei enempää gettejä, viimeisin getti on catch-all
     }
 
     public void lisaaDrinkkiSpark() {
