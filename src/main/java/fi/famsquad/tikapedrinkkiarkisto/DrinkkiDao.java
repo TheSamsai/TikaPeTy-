@@ -131,8 +131,8 @@ public class DrinkkiDao {
             statement.setInt(1, id);
 
             ResultSet rs = statement.executeQuery();
-            
-           String nimi = rs.getString("nimi");
+
+            String nimi = rs.getString("nimi");
             if (!nimi.isEmpty()) {
                 ra = new RaakaAine(nimi, id);
             }
@@ -199,6 +199,8 @@ public class DrinkkiDao {
             return draLista;
         }
     }
+
+    
 
     public void removeDrinkkiById(int id) throws SQLException {
         try (Connection conn = tietokanta.getConnection()) {

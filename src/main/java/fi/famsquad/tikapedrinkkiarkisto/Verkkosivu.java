@@ -99,7 +99,7 @@ public class Verkkosivu {
             Integer drinkkiId = Integer.parseInt(req.params(":id"));
             map.put("drinkki", this.dDao.findDrinkkiById(drinkkiId));
             map.put("raakaAineet", this.dDao.findAllDrinkinRaakaAineet(drinkkiId));
-
+            
             return new ModelAndView(map, "drinkki");
 
         }, new ThymeleafTemplateEngine());
