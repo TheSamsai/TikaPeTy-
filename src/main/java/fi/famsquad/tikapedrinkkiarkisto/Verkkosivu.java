@@ -48,11 +48,11 @@ public class Verkkosivu {
         }, new ThymeleafTemplateEngine());
 
     }
-    
+
     public void nakyvaIndeksi() {
         Spark.get("/index", (req, res) -> {
             HashMap map = new HashMap<>();
-            
+
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
     }
@@ -64,21 +64,21 @@ public class Verkkosivu {
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
-        
+
         Spark.get("/raakaaineet/:id", (req, res) -> {
             int raakaAineId = Integer.parseInt(req.params(":id"));
             dDao.removeRaakaAineById(raakaAineId);
-            
+
             res.redirect("/raakaaineet");
             return "";
         });
-        
+
         Spark.post("/lisaaraakaaine", (req, res) -> {
             String nimi = req.queryParams("aine");
 
             RaakaAine raakaAine = new RaakaAine(nimi);
             raakaAine = dDao.addRaakaAine(raakaAine);
-            
+
             res.redirect("/raakaaineet");
             return "";
         });
@@ -91,11 +91,11 @@ public class Verkkosivu {
 
             return new ModelAndView(map, "drinkit");
         }, new ThymeleafTemplateEngine());
-        
+
         Spark.get("/poistadrinkki/:id", (req, res) -> {
             int drinkkiId = Integer.parseInt(req.params(":id"));
             dDao.removeDrinkkiById(drinkkiId);
-            
+
             res.redirect("/drinkit");
             return "";
         });
@@ -107,33 +107,31 @@ public class Verkkosivu {
             Integer drinkkiId = Integer.parseInt(req.params(":id"));
             map.put("drinkki", this.dDao.findDrinkkiById(drinkkiId));
             map.put("raakaAineet", this.dDao.findAllDrinkinRaakaAineet(drinkkiId));
-            
+
             return new ModelAndView(map, "drinkki");
 
         }, new ThymeleafTemplateEngine());
-        
+
         Spark.get("/poistaraakainedrinkista/:did/:rid", (req, res) -> {
             int drinkkiId = Integer.parseInt(req.params(":did"));
             int raakaAineId = Integer.parseInt(req.params(":rid"));
-            
+
             System.out.println("Poistetaan raaka-aine " + raakaAineId + " drinkistä " + drinkkiId);
-            
+
             dDao.removeRaakaAineFromDrinkkiById(raakaAineId, drinkkiId);
-            
+
             res.redirect("/drinkit/" + drinkkiId);
             return "";
         });
     }
 
-   
-
     public void lisaaDrinkkiSpark() {
         Spark.post("/drinkkimikseri", (req, res) -> {
             String drinkinNimi = req.queryParams("drinkinNimi");
-            Drinkki lisattavaDrinkki = new Drinkki(drinkinNimi);
-            this.dDao.addDrinkki(lisattavaDrinkki);
-            System.out.println("Lisättiin drinkki" + lisattavaDrinkki.getNimi());
-
+            if (!drinkinNimi.isEmpty()) {
+                Drinkki lisattavaDrinkki = new Drinkki(drinkinNimi);
+                this.dDao.addDrinkki(lisattavaDrinkki);
+            }
             res.redirect("/drinkkimikseri");
             return "";
         });
@@ -143,15 +141,23 @@ public class Verkkosivu {
         Spark.post("/drinkkiraakis", (req, res) -> {
             int drinkinId = Integer.parseInt(req.queryParams("drinkkiSelect"));
             int raakiksenId = Integer.parseInt(req.queryParams("raakisSelect"));
-            int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
-            int maara = Integer.parseInt(req.queryParams("maara"));
+            int jarjestys = -1;
+            int maara = -1;
+            try {
+                jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
+                maara = Integer.parseInt(req.queryParams("maara"));
+            } catch (Exception e) {
+                res.redirect("/drinkkimikseri");
+                return "";
+            }
             String ohje = req.queryParams("ohje");
-
             DrinkkiRaakaAine dra = new DrinkkiRaakaAine(this.dDao.findRaakaAineById(raakiksenId), maara, jarjestys, ohje);
             this.dDao.addDrinkkiinRaakaAine(this.dDao.findDrinkkiById(drinkinId), dra);
+
             res.redirect("/drinkkimikseri");
             return "";
-        });
+        }
+        );
     }
 
     public void catchAll() {
