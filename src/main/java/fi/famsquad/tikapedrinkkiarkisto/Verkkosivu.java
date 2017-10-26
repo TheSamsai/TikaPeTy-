@@ -103,6 +103,18 @@ public class Verkkosivu {
             return new ModelAndView(map, "drinkki");
 
         }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/poistaraakainedrinkista/:did/:rid", (req, res) -> {
+            int drinkkiId = Integer.parseInt(req.params(":did"));
+            int raakaAineId = Integer.parseInt(req.params(":rid"));
+            
+            System.out.println("Poistetaan raaka-aine " + raakaAineId + " drinkistä " + drinkkiId);
+            
+            dDao.removeRaakaAineFromDrinkkiById(raakaAineId, drinkkiId);
+            
+            res.redirect("/drinkit/" + drinkkiId);
+            return "";
+        });
     }
 
    

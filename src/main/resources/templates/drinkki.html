@@ -18,7 +18,7 @@ and open the template in the editor.
         
         <ul>
             <li th:each="raakaAine : ${raakaAineet}">
-                <span th:text="${raakaAine.raakaAine.nimi}">Raaka-aine</span>
+                <span th:text="${raakaAine.raakaAine.nimi}">Raaka-aine</span> <span><a th:href="@{~/poistaraakainedrinkista/{did}/{rid}(rid=${raakaAine.raakaAine.id},did=${drinkki.id})}">Poista raaka-aine</a></span>
             </li>
         </ul>
         
