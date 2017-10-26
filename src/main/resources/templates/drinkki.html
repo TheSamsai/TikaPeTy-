@@ -21,6 +21,7 @@
                 <p>#<span th:text="${raakaAine.jarjestys}">Raaka-ainejarkka</span> raaka-aine: <span th:text="${raakaAine.raakaAine.nimi}">Raaka-aine</span></p>
                 <p>maara: <span th:text="${raakaAine.maara}">Raaka-aineMaara</span></p>
                 <p>ohje: <span th:text="${raakaAine.ohje}">Raaka-aineOhje</span></p>
+                <p><span><a th:href="@{~/poistaraakainedrinkista/{did}/{rid}(rid=${raakaAine.raakaAine.id},did=${drinkki.id})}">Poista raaka-aine</a></span></p>
             </li>
         </ul>
 
