@@ -34,7 +34,7 @@ public class Verkkosivu {
         drinkitSivu();
         drinkkiSivu();
         raakaAineet();
-        
+        nakyvaIndeksi();
         // Tämä on vihoviimeinen Spark.get(), lisätkää uusia vain tämän yläpuolelle
         catchAll();
     }
@@ -44,9 +44,17 @@ public class Verkkosivu {
             HashMap map = new HashMap<>();
             map.put("drinkkilista", this.dDao.findAllDrinkki());
             map.put("raakislista", this.dDao.findAllRaakaAine());
-            return new ModelAndView(map, "index");
+            return new ModelAndView(map, "drinkkimikseri");
         }, new ThymeleafTemplateEngine());
 
+    }
+    
+    public void nakyvaIndeksi() {
+        Spark.get("/index", (req, res) -> {
+            HashMap map = new HashMap<>();
+            
+            return new ModelAndView(map, "index");
+        }, new ThymeleafTemplateEngine());
     }
 
     public void raakaAineet() throws SQLException {
@@ -150,7 +158,7 @@ public class Verkkosivu {
         // Helppo redirekti joka ohjaa oikealle verkkosivulle
         // Nyt voi yhdistää suoraan http://localhost:4567 ja päästä oikeaan paikkaan
         Spark.get("*", (req, res) -> {
-            res.redirect("/drinkkimikseri");
+            res.redirect("/index");
 
             return "";
         });

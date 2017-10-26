@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
         <title>Drinkit</title>
         <meta charset="utf-8" />
     </head>
@@ -11,11 +12,11 @@
 
         <ul>
             <li th:each="drinkki : ${drinkit}"><a th:href="@{~/drinkit/{id}(id=${drinkki.id})}">
-                 <span th:value="${drinkki.id}" th:text="${drinkki.nimi}">Drinkki</span></a> <a th:href="@{~/poistadrinkki/{id}(id=${drinkki.id})}">Poista</a>
-                
+                    <span th:value="${drinkki.id}" th:text="${drinkki.nimi}">Drinkki</span></a> <a th:href="@{~/poistadrinkki/{id}(id=${drinkki.id})}">Poista</a>
+
             </li>
         </ul>
-
+        <p><a href="/index">Palaa alkuun</a></p>
 
     </body>
 </html>

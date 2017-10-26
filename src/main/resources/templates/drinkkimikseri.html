@@ -1,0 +1,44 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
+        <title>Drinkkimikseri</title>
+        <meta charset="utf-8" />
+    </head>
+
+
+    <body>
+        <h1>Drinkit</h1>
+
+        <h2>Lisää uusi</h2>
+        <form method="POST" action="/drinkkimikseri">
+            Drinkin nimi:<br/>
+            <input type="text" name="drinkinNimi"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+        <h2>Lisää raaka-aineita</h2>
+
+
+
+        <form method="POST" action="/drinkkiraakis">
+            Drinkin nimi:<br/>
+            <select name="drinkkiSelect">
+                <option th:each="drinkki : ${drinkkilista}" th:value="${drinkki.id}" th:text="${drinkki.nimi}">drinkki</option>
+            </select>
+            <br/>Lisättävä raaka-aine:<br/>
+            <select name="raakisSelect">
+                <option th:each="raakis : ${raakislista}" th:value="${raakis.id}" th:text="${raakis.nimi}">raakis</option>
+            </select>
+            <br/>Järjestys<br/>
+            <input type="text" name="jarjestys"/><br/>
+            Määrä<br/>
+            <input type="text" name="maara"/><br/>
+            Ohje<br/>
+            <input type="text" name="ohje"/><br/>
+            <input type="submit" value="Lisää raaka-aine"/>
+        </form>
+        <p><a href="/index">Palaa alkuun</a></p>
+    </body>
+</html>

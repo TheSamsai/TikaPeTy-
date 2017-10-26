@@ -7,6 +7,7 @@
     -->
 
     <head>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
         <title>Drinkki</title>
         <meta charset="utf-8" />
     </head>
@@ -24,7 +25,7 @@
                 <p><span><a th:href="@{~/poistaraakainedrinkista/{did}/{rid}(rid=${raakaAine.raakaAine.id},did=${drinkki.id})}">Poista raaka-aine</a></span></p>
             </li>
         </ul>
-
+        <p><a href="/index">Palaa alkuun</a></p>
 
     </body>
 </html>

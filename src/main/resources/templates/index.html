@@ -4,40 +4,21 @@
     <head>
         <link rel="stylesheet" href="style.css" type="text/css"/>
 
-        <title>Drinkkimikseri</title>
+        <title>Drinkkisovellus</title>
         <meta charset="utf-8" />
     </head>
 
 
     <body>
-        <h1>Drinkit</h1>
+        <h1>Drinkkimikserin sivut</h1>
 
-        <h2>Lisää uusi</h2>
-        <form method="POST" action="/drinkkimikseri">
-            Drinkin nimi:<br/>
-            <input type="text" name="drinkinNimi"/><br/>
-            <input type="submit" value="Lisää"/>
-        </form>
-        <h2>Lisää raaka-aineita</h2>
+        <p><a href="/drinkit">Drinkkilistaus</a></p>
+        <p><a href="/raakaaineet">Raaka-aineiden lisääminen tietokantaan</a></p>
+        <p><a href="/drinkkimikseri">Drinkkimikseri</a></p>
+        
+        
 
 
 
-        <form method="POST" action="/drinkkiraakis">
-            Drinkin nimi:<br/>
-            <select name="drinkkiSelect">
-                <option th:each="drinkki : ${drinkkilista}" th:value="${drinkki.id}" th:text="${drinkki.nimi}">drinkki</option>
-            </select>
-            <br/>Lisättävä raaka-aine:<br/>
-            <select name="raakisSelect">
-                <option th:each="raakis : ${raakislista}" th:value="${raakis.id}" th:text="${raakis.nimi}">raakis</option>
-            </select>
-            <br/>Järjestys<br/>
-            <input type="text" name="jarjestys"/><br/>
-            Määrä<br/>
-            <input type="text" name="maara"/><br/>
-            Ohje<br/>
-            <input type="text" name="ohje"/><br/>
-            <input type="submit" value="Lisää raaka-aine"/>
-        </form>
     </body>
 </html>
